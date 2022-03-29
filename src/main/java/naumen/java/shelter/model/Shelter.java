@@ -6,7 +6,7 @@ public class Shelter {
 
     protected Long id;
     protected String name;
-    protected List<Animal> animals;
+    protected List<Long> animals;
 
     public Shelter(String name, Long id)
     {

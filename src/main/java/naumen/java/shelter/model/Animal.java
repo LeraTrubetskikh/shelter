@@ -1,15 +1,25 @@
 package naumen.java.shelter.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "animals")
 public class Animal {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
-    protected String name;
-    protected Shelter shelter;
-    protected String description;
 
-    public Animal(String name, Long id){
+    @Column(name = "name")
+    protected String name;
+
+//    protected Long shelterId;
+//    protected String description;
+
+    public Animal(){}
+
+    public Animal(String name){
         this.name = name;
-        this.id = id;
     }
 
     public Long getId(){
@@ -20,11 +30,11 @@ public class Animal {
         return name;
     }
 
-    public Shelter getShelter(){
-        return shelter;
-    }
-
-    public String getDescription(){
-        return description;
-    }
+//    public Long getShelterId(){
+//        return shelterId;
+//    }
+//
+//    public String getDescription(){
+//        return description;
+//    }
 }
