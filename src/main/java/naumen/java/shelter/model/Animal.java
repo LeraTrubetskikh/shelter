@@ -7,8 +7,9 @@ public class Animal {
     protected Shelter shelter;
     protected String description;
 
-    public Animal(String name){
+    public Animal(String name, Long id){
         this.name = name;
+        this.id = id;
     }
 
     public Long getId(){

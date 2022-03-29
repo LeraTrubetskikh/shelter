@@ -5,12 +5,11 @@ import naumen.java.shelter.services.AnimalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class AnimalsController {
@@ -29,4 +28,25 @@ public class AnimalsController {
         return animals;
     }
 
+    @GetMapping(value = "/animal/{id}")
+    @ResponseBody
+    public Animal getMagiciansById(@PathVariable("id") Long animalId)
+    {
+        Animal animal = animalServices.stream()
+                .map(animalService-> animalService.getAnimalId(animalId))
+                .filter(Objects::nonNull)
+                .findFirst().orElseGet(null);
+        return animal;
+    }
+
+    @GetMapping(value = "animal")
+    @ResponseBody
+    public Animal getAnimalsByParamId(@RequestParam("id") Long animalId)
+    {
+        Animal animal = animalServices.stream()
+                .map(animalService -> animalService.getAnimalId(animalId))
+                .filter(Objects::nonNull)
+                .findFirst().orElseGet(null);
+        return animal;
+    }
 }
