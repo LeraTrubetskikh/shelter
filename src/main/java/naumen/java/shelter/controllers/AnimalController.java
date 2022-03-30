@@ -23,16 +23,20 @@ public class AnimalController {
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value =
             "/animals")
     @ResponseBody
-    public List<Animal> getAnimals(){
+    public ModelAndView getAnimals(){
         var animal = animalServices.stream()
                 .filter(animalService -> animalService instanceof AnimalService)
                 .findFirst()
                 .get()
                 .getAnimalss();
-        return animal;
+//        return animal;
 //        List<Animal> animals = new ArrayList<>();
 //        animalServices.forEach(animalService ->animals.addAll(animalService.getAnimals()));
 //        return animals;
+
+        ModelAndView modelAndView = new ModelAndView("animals");
+        modelAndView.addObject("animals", animal);
+        return modelAndView;
     }
 
     @GetMapping(value = "/animal/{id}")
@@ -58,11 +62,26 @@ public class AnimalController {
     }
 
     @GetMapping("/createAnimal/{name}")
-    public void createAnimal(@PathVariable String name)
+    public ModelAndView createAnimal(@PathVariable String name)
     {
         animalServices.stream()
                 .filter(animalService -> animalService instanceof AnimalService)
                 .findFirst()
                 .get().saveAnimal(name);
+
+        return getAnimals();
     }
+
+//    @GetMapping("/animalsView")
+//    public ModelAndView getAnimalsView()
+//    {
+//        List<Animal> animals = animalServices.stream()
+//                .filter(animalService -> animalService instanceof AnimalService)
+//                .findFirst()
+//                .get()
+//                .getAnimalss();
+//        ModelAndView modelAndView = new ModelAndView("animals");
+//        modelAndView.addObject("animals", animals);
+//        return modelAndView;
+//    }
 }
