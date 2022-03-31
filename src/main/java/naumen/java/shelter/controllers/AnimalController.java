@@ -41,7 +41,7 @@ public class AnimalController {
 
     @GetMapping(value = "/animal/{id}")
     @ResponseBody
-    public Animal getMagiciansById(@PathVariable("id") Long animalId)
+    public Animal getAnimalsById(@PathVariable("id") Long animalId)
     {
         Animal animal = animalServices.stream()
                 .map(animalService-> animalService.getAnimalId(animalId))

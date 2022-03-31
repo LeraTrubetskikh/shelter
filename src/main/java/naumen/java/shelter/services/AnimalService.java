@@ -31,9 +31,16 @@ public class AnimalService {
 
     public Animal getAnimalId(Long id)
     {
-        List<Animal> found =
-            animals.stream().filter(animal -> animal.getId() == id).collect(Collectors.toList());
-            return found.size() == 0 ? null : found.stream().findFirst().get();
+//        List<Animal> found =
+//            animals.stream().filter(animal -> animal.getId() == id).collect(Collectors.toList());
+//            return found.size() == 0 ? null : found.stream().findFirst().get();
+
+        var allAnimals = animalRepository.findAll();
+        var listAnimals = new ArrayList<Animal>();
+        allAnimals.forEach(animal -> {if (animal.getId() == id) listAnimals.add(animal);});
+
+        return listAnimals.size() == 0 ? null : listAnimals.stream().findFirst().get();
+
     }
 
     public void saveAnimal(String name)
