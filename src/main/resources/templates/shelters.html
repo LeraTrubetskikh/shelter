@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>animals</h1>
+    <br/><br/>
+    <div>
+        <table border="1">
+            <tr>
+                <th>shelter id</th>
+                <th>shelter name</th>
+            </tr>
+            <tr th:each ="shelter : ${shelters}">
+                <td th:utext="${shelter.getId()}">...</td>
+                <td th:utext="${shelter.getName()}">...</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

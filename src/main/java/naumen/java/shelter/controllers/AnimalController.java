@@ -23,12 +23,12 @@ public class AnimalController {
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value =
             "/animals")
     @ResponseBody
-    public ModelAndView getAnimals(){
+    public ModelAndView getAnimalsView(){
         var animal = animalServices.stream()
                 .filter(animalService -> animalService instanceof AnimalService)
                 .findFirst()
                 .get()
-                .getAnimalss();
+                .getAnimals();
 //        return animal;
 //        List<Animal> animals = new ArrayList<>();
 //        animalServices.forEach(animalService ->animals.addAll(animalService.getAnimals()));
@@ -69,7 +69,7 @@ public class AnimalController {
                 .findFirst()
                 .get().saveAnimal(name);
 
-        return getAnimals();
+        return getAnimalsView();
     }
 
 //    @GetMapping("/animalsView")
@@ -79,7 +79,7 @@ public class AnimalController {
 //                .filter(animalService -> animalService instanceof AnimalService)
 //                .findFirst()
 //                .get()
-//                .getAnimalss();
+//                .getAnimals();
 //        ModelAndView modelAndView = new ModelAndView("animals");
 //        modelAndView.addObject("animals", animals);
 //        return modelAndView;

@@ -14,19 +14,10 @@ import java.util.stream.Collectors;
 public class AnimalService {
 
     private AnimalRepository animalRepository;
-    protected List<Animal> animals;
 
     @Autowired
     public AnimalService(AnimalRepository animalRepository){
         this.animalRepository =animalRepository;
-//        animals = new ArrayList<>();
-//        animals.add(new Animal("Кокос", 1L));
-//        animals.add(new Animal("Персик", 2L));
-//        animals.add(new Animal("Компот", 3L));
-    }
-
-    public List<Animal> getAnimals(){
-        return animals;
     }
 
     public Animal getAnimalId(Long id)
@@ -49,7 +40,7 @@ public class AnimalService {
         animalRepository.save(animal);
     }
 
-    public ArrayList<Animal> getAnimalss()
+    public ArrayList<Animal> getAnimals()
     {
         var allAnimals= animalRepository.findAll();
         var listAnimals = new ArrayList<Animal>();
