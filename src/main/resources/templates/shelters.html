@@ -16,6 +16,7 @@
             <tr th:each ="shelter : ${shelters}">
                 <td th:utext="${shelter.getId()}">...</td>
                 <td th:utext="${shelter.getName()}">...</td>
+                <td th:utext="${shelter.getAnimals()}">...</td>
             </tr>
         </table>
     </div>
