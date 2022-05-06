@@ -34,9 +34,8 @@ public class AnimalService {
 
     }
 
-    public void saveAnimal(String name)
+    public void saveAnimal(Animal animal)
     {
-        Animal animal = new Animal(name);
         animalRepository.save(animal);
     }
 

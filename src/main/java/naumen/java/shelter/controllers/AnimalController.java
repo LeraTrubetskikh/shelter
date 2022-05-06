@@ -1,10 +1,13 @@
 package naumen.java.shelter.controllers;
 
 import naumen.java.shelter.model.Animal;
+import naumen.java.shelter.model.Shelter;
 import naumen.java.shelter.services.AnimalService;
+import naumen.java.shelter.services.ShelterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,9 +19,13 @@ import java.util.Objects;
 public class AnimalController {
 
     private List<AnimalService> animalServices;
+    private List<ShelterService> shelterServices;
 
     @Autowired
-    public AnimalController(List<AnimalService> animalServices){ this.animalServices = animalServices;}
+    public AnimalController(List<AnimalService> animalServices, List<ShelterService> shelterServices){
+        this.animalServices = animalServices;
+        this.shelterServices = shelterServices;
+    }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value =
             "/animals")
@@ -61,15 +68,38 @@ public class AnimalController {
         return animal;
     }
 
-    @GetMapping("/createAnimal/{name}")
-    public ModelAndView createAnimal(@PathVariable String name)
-    {
+//    @GetMapping("/createAnimal/{name}")
+//    public ModelAndView createAnimal(@PathVariable String name)
+//    {
+//        animalServices.stream()
+//                .filter(animalService -> animalService instanceof AnimalService)
+//                .findFirst()
+//                .get().saveAnimal(name);
+//
+//        return getAnimalsView();
+//    }
+
+    @RequestMapping(value="/addAnimal", method=RequestMethod.GET)
+    public String getAnimalViewFrom(Model model){
+        var shelters = shelterServices.stream()
+                .filter(shelterService -> shelterService instanceof ShelterService)
+                .findFirst()
+                .get()
+                .getShelters();
+        model.addAttribute("animal", new Animal());
+        model.addAttribute("shelters", shelters);
+        return "addAnimal";
+    }
+
+    @RequestMapping(value="/addAnimal", method=RequestMethod.POST)
+    public ModelAndView getAnimalViewSubmit(@ModelAttribute Animal animal, Model model){
         animalServices.stream()
                 .filter(animalService -> animalService instanceof AnimalService)
                 .findFirst()
-                .get().saveAnimal(name);
-
-        return getAnimalsView();
+                .get().saveAnimal(animal);
+        //model.addAttribute("animals", animal);
+        var newModel = getAnimalsView();
+        return newModel;
     }
 
 //    @GetMapping("/animalsView")

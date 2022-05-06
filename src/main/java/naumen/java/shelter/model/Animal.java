@@ -8,12 +8,13 @@ public class Animal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected Long id;
+    private Long id;
 
     @Column(name = "name")
-    protected String name;
+    private String name;
 
-//    protected Long shelterId;
+    @Column(name = "shelterId")
+    private Long shelter;
 //    protected String description;
 
     public Animal(){}
@@ -22,6 +23,19 @@ public class Animal {
         this.name = name;
     }
 
+    public void setId(Long id){
+        this.id = id;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void setShelter(Long shelter){
+        this.shelter = shelter;
+    }
+
+
     public Long getId(){
         return id;
     }
@@ -29,6 +43,12 @@ public class Animal {
     public String getName(){
         return name;
     }
+
+    public Long getShelter(){
+        return shelter;
+    }
+
+
 
 //    public Long getShelterId(){
 //        return shelterId;
