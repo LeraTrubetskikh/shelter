@@ -14,8 +14,8 @@ public class Shelter {
     @Column(name = "name")
     protected String name;
 
-//    @Column(name = "animalsId")
-//    protected List<Long> animals;
+//    @OneToMany(mappedBy = "id")
+//    protected List<Animal> animals;
 
     public Shelter(){}
 

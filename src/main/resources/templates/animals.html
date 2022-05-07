@@ -15,7 +15,7 @@
             </tr>
             <tr th:each ="animal : ${animals}">
                 <td th:utext="${animal.getId()}">...</td>
-                <td th:utext="${animal.getName()}">...</td>
+                <td><a th:utext="${animal.getName()}" th:href="@{/animal/{id}(id=${animal.getId()})}">...</a></td>
             </tr>
         </table>
     </div>
