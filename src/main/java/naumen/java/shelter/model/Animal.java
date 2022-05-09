@@ -14,8 +14,16 @@ public class Animal {
     private String name;
 
     @Column(name = "shelterId")
-    private Long shelter;
-//    protected String description;
+    private Long shelterId;
+
+    @Column(name = "breed")
+    private String breed;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "age")
+    private String age;
 
     public Animal(){}
 
@@ -31,10 +39,15 @@ public class Animal {
         this.name = name;
     }
 
-    public void setShelter(Long shelter){
-        this.shelter = shelter;
+    public void setShelter(Long shelterId){
+        this.shelterId = shelterId;
     }
 
+    public void setBreed(String breed){this.breed = breed;}
+
+    public void setDescription(String description){this.description = description;}
+
+    public void setAge(String age){this.age = age;}
 
     public Long getId(){
         return id;
@@ -45,16 +58,12 @@ public class Animal {
     }
 
     public Long getShelter(){
-        return shelter;
+        return shelterId;
     }
 
+    public String getBreed(){return breed;}
 
+    public String getDescription(){return description;}
 
-//    public Long getShelterId(){
-//        return shelterId;
-//    }
-//
-//    public String getDescription(){
-//        return description;
-//    }
+    public String getAge(){return age;}
 }

@@ -5,11 +5,16 @@
     <title>Title</title>
 </head>
 <body>
+<a href="/logout">Выход</a>
+<a href="/animals">Отмена</a>
 <form action="#" th:action="@{/addAnimal}" th:object="${animal}" method="post">
     <p>Name: <input type="text" th:field="*{name}" /></p>
     <p>Shelter: <select th:field="*{shelter}">
         <option th:each ="shelter : ${shelters}" th:value="${shelter.getId()}" th:utext="${shelter.getName()}">...</option>
     </select></p>
+    <p>Возраст: <input type="text" th:field="*{age}" /></p>
+    <p>Порода: <input type="text" th:field="*{breed}" /></p>
+    <p>Описание: <input type="text" th:field="*{description}" /></p>
     <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
 </form>
 </body>

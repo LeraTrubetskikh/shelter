@@ -9,6 +9,8 @@
     <h1>animals</h1>
     <br/><br/>
     <div>
+        <a sec:authorize="!isAuthenticated()" href="/registration">Регистрация</a>
+        <a sec:authorize="!isAuthenticated()" href="/login">Войти</a>
         <a sec:authorize="isAuthenticated()" href="/logout">Выход</a>
         <a sec:authorize="hasAuthority('ADMIN')" href="/addAnimal">Добавить животное</a>
         <table border="1">

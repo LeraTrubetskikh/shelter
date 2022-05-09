@@ -55,13 +55,14 @@ public class AnimalController {
 //    }
 
     @GetMapping(value = "/animal/{id}")
-    @ResponseBody
-    public Animal getAnimalById(@PathVariable("id") Long animalId)
+    public String getAnimalById(@PathVariable("id") Long animalId, Model model)
     {
-        return animalServices.stream()
+        var animal = animalServices.stream()
                 .map(animalService-> animalService.getAnimalId(animalId))
                 .filter(Objects::nonNull)
                 .findFirst().orElseGet(null);
+        model.addAttribute("animal", animal);
+        return "animalCard";
     }
 
     @GetMapping(value = "animal")
