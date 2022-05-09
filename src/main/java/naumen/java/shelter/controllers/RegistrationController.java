@@ -42,10 +42,4 @@ public class RegistrationController {
     {
         return "login";
     }
-
-//    @GetMapping("/")
-//    public String getHomePage()
-//    {
-//        return "hello";
-//    }
 }

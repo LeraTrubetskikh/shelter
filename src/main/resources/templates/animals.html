@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -8,6 +9,8 @@
     <h1>animals</h1>
     <br/><br/>
     <div>
+        <a sec:authorize="isAuthenticated()" href="/logout">Выход</a>
+        <a sec:authorize="hasAuthority('ADMIN')" href="/addAnimal">Добавить животное</a>
         <table border="1">
             <tr>
                 <th>animal id</th>
