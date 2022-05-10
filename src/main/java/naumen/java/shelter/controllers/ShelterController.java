@@ -6,6 +6,7 @@ import naumen.java.shelter.services.ShelterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,14 +22,14 @@ public class ShelterController {
     public ShelterController(List<ShelterService> shelterServices){this.shelterServices = shelterServices;}
 
     @GetMapping(value = "/shelter/{id}")
-    @ResponseBody
-    public Shelter getSheltersById(@PathVariable("id") Long shelterId)
+    public String getSheltersById(@PathVariable("id") Long shelterId, Model model)
     {
-        Shelter shelter = shelterServices.stream()
-                .map(shelterService-> shelterService.getShelterId(shelterId))
+        var shelter = shelterServices.stream()
+                .map(animalService-> animalService.getShelterId(shelterId))
                 .filter(Objects::nonNull)
                 .findFirst().orElseGet(null);
-        return shelter;
+        model.addAttribute("shelter", shelter);
+        return "shelterCard";
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value =

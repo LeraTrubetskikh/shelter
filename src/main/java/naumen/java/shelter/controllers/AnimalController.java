@@ -61,7 +61,12 @@ public class AnimalController {
                 .map(animalService-> animalService.getAnimalId(animalId))
                 .filter(Objects::nonNull)
                 .findFirst().orElseGet(null);
+        var shelter = shelterServices.stream()
+                .map(animalService-> animalService.getShelterId(animal.getShelter()))
+                .filter(Objects::nonNull)
+                .findFirst().orElseGet(null);
         model.addAttribute("animal", animal);
+        model.addAttribute("shelter", shelter);
         return "animalCard";
     }
 
