@@ -25,6 +25,9 @@ public class Animal {
     @Column(name = "age")
     private String age;
 
+    @Column(name = "image")
+    private String image;
+
     public Animal(){}
 
     public Animal(String name){
@@ -49,6 +52,10 @@ public class Animal {
 
     public void setAge(String age){this.age = age;}
 
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public Long getId(){
         return id;
     }
@@ -66,4 +73,8 @@ public class Animal {
     public String getDescription(){return description;}
 
     public String getAge(){return age;}
+
+    public String getImage() {
+        return image;
+    }
 }

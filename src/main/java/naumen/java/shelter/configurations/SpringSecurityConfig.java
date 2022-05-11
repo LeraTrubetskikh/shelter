@@ -22,18 +22,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
+        http.authorizeRequests()
                 .antMatchers("/login", "/registration", "/animals")
                 .permitAll()
                 .antMatchers("/addAnimal").hasAnyAuthority("ADMIN")
-                .anyRequest().authenticated()
-                .and()
+                .antMatchers("/addShelter").hasAnyAuthority("ADMIN")
+                .anyRequest()
+                .authenticated()
+            .and()
                 .formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/animals")
                 .permitAll()
-                .and()
+            .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/animals").deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true)

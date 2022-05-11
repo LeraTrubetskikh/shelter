@@ -41,44 +41,20 @@ public class AnimalController {
         return "animals";
     }
 
-//    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value =
-//            "/animals")
-//    @ResponseBody
-//    public ModelAndView getMainPage(@ModelAttribute Animal animal, Model model){
-//        var newAnimal = getAnimalById(animal.getId());
-//        ModelAndView modelAndView = new ModelAndView("animals");
-//        var newAnimals = new ArrayList<Animal>();
-//        newAnimals.add(newAnimal);
-//        modelAndView.addObject("animals", newAnimals);
-//        modelAndView.addObject("animal", new Animal());
-//        return modelAndView;
-//    }
-
     @GetMapping(value = "/animal/{id}")
     public String getAnimalById(@PathVariable("id") Long animalId, Model model)
     {
         var animal = animalServices.stream()
-                .map(animalService-> animalService.getAnimalId(animalId))
+                .map(animalService-> animalService.getAnimalById(animalId))
                 .filter(Objects::nonNull)
                 .findFirst().orElseGet(null);
         var shelter = shelterServices.stream()
-                .map(animalService-> animalService.getShelterId(animal.getShelter()))
+                .map(animalService-> animalService.getShelterById(animal.getShelter()))
                 .filter(Objects::nonNull)
                 .findFirst().orElseGet(null);
         model.addAttribute("animal", animal);
         model.addAttribute("shelter", shelter);
         return "animalCard";
-    }
-
-    @GetMapping(value = "animal")
-    @ResponseBody
-    public Animal getAnimalsByParamId(@RequestParam("id") Long animalId)
-    {
-        Animal animal = animalServices.stream()
-                .map(animalService -> animalService.getAnimalId(animalId))
-                .filter(Objects::nonNull)
-                .findFirst().orElseGet(null);
-        return animal;
     }
 
     @RequestMapping(value="/addAnimal", method=RequestMethod.GET)

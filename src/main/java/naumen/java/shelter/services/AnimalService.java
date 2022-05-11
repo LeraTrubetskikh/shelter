@@ -20,7 +20,7 @@ public class AnimalService {
         this.animalRepository =animalRepository;
     }
 
-    public Animal getAnimalId(Long id)
+    public Animal getAnimalById(Long id)
     {
         var allAnimals = animalRepository.findAll();
         var listAnimals = new ArrayList<Animal>();
