@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,58 +30,35 @@ public class AnimalController {
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value =
             "/animals")
-    @ResponseBody
-    public ModelAndView getAnimalsView(){
-        var animal = animalServices.stream()
+    public String getMainPage(Model model){
+        var animals = animalServices.stream()
                 .filter(animalService -> animalService instanceof AnimalService)
                 .findFirst()
                 .get()
                 .getAnimals();
-//        return animal;
-//        List<Animal> animals = new ArrayList<>();
-//        animalServices.forEach(animalService ->animals.addAll(animalService.getAnimals()));
-//        return animals;
-
-        ModelAndView modelAndView = new ModelAndView("animals");
-        modelAndView.addObject("animals", animal);
-        return modelAndView;
+        model.addAttribute("animals", animals);
+        model.addAttribute("animal", new Animal());
+        return "animals";
     }
 
     @GetMapping(value = "/animal/{id}")
-    @ResponseBody
-    public Animal getAnimalsById(@PathVariable("id") Long animalId)
+    public String getAnimalById(@PathVariable("id") Long animalId, Model model)
     {
-        Animal animal = animalServices.stream()
-                .map(animalService-> animalService.getAnimalId(animalId))
+        var animal = animalServices.stream()
+                .map(animalService-> animalService.getAnimalById(animalId))
                 .filter(Objects::nonNull)
                 .findFirst().orElseGet(null);
-        return animal;
-    }
-
-    @GetMapping(value = "animal")
-    @ResponseBody
-    public Animal getAnimalsByParamId(@RequestParam("id") Long animalId)
-    {
-        Animal animal = animalServices.stream()
-                .map(animalService -> animalService.getAnimalId(animalId))
+        var shelter = shelterServices.stream()
+                .map(animalService-> animalService.getShelterById(animal.getShelter()))
                 .filter(Objects::nonNull)
                 .findFirst().orElseGet(null);
-        return animal;
+        model.addAttribute("animal", animal);
+        model.addAttribute("shelter", shelter);
+        return "animalCard";
     }
-
-//    @GetMapping("/createAnimal/{name}")
-//    public ModelAndView createAnimal(@PathVariable String name)
-//    {
-//        animalServices.stream()
-//                .filter(animalService -> animalService instanceof AnimalService)
-//                .findFirst()
-//                .get().saveAnimal(name);
-//
-//        return getAnimalsView();
-//    }
 
     @RequestMapping(value="/addAnimal", method=RequestMethod.GET)
-    public String getAnimalViewFrom(Model model){
+    public String addAnimalForm(Model model){
         var shelters = shelterServices.stream()
                 .filter(shelterService -> shelterService instanceof ShelterService)
                 .findFirst()
@@ -92,26 +70,18 @@ public class AnimalController {
     }
 
     @RequestMapping(value="/addAnimal", method=RequestMethod.POST)
-    public ModelAndView getAnimalViewSubmit(@ModelAttribute Animal animal, Model model){
+    public ModelAndView addAnimalSubmit(@ModelAttribute Animal animal, Model model){
         animalServices.stream()
                 .filter(animalService -> animalService instanceof AnimalService)
                 .findFirst()
                 .get().saveAnimal(animal);
-        //model.addAttribute("animals", animal);
-        var newModel = getAnimalsView();
-        return newModel;
+        var animals = animalServices.stream()
+                .filter(animalService -> animalService instanceof AnimalService)
+                .findFirst()
+                .get()
+                .getAnimals();
+        ModelAndView modelAndView = new ModelAndView("animals");
+        modelAndView.addObject("animals", animals);
+        return modelAndView;
     }
-
-//    @GetMapping("/animalsView")
-//    public ModelAndView getAnimalsView()
-//    {
-//        List<Animal> animals = animalServices.stream()
-//                .filter(animalService -> animalService instanceof AnimalService)
-//                .findFirst()
-//                .get()
-//                .getAnimals();
-//        ModelAndView modelAndView = new ModelAndView("animals");
-//        modelAndView.addObject("animals", animals);
-//        return modelAndView;
-//    }
 }

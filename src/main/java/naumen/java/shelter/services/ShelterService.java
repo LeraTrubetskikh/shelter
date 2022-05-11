@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 @Service
 public class ShelterService {
 
-    protected List<Shelter> shelters;
     private ShelterRepository shelterRepository;
 
     @Autowired
@@ -22,19 +21,15 @@ public class ShelterService {
         this.shelterRepository =shelterRepository;
     }
 
-    public ShelterService()
-    {
-//        shelters = new ArrayList<>();
-//        shelters.add(new Shelter("Первый приют", 1L));
-//        shelters.add(new Shelter("Второй приют", 2L));
-//        shelters.add(new Shelter("Третий приют", 3L));
-    }
+    public ShelterService() {}
 
-    public Shelter getShelterId(Long id)
+    public Shelter getShelterById(Long id)
     {
-        List<Shelter> found =
-            shelters.stream().filter(shelter -> shelter.getId() == id).collect(Collectors.toList());
-            return found.size() == 0 ? null : found.stream().findFirst().get();
+        var allShelters = shelterRepository.findAll();
+        var listShelters = new ArrayList<Shelter>();
+        allShelters.forEach(animal -> {if (animal.getId() == id) listShelters.add(animal);});
+
+        return listShelters.size() == 0 ? null : listShelters.stream().findFirst().get();
     }
 
     public ArrayList<Shelter> getShelters()
@@ -45,9 +40,8 @@ public class ShelterService {
         return listShelters;
     }
 
-    public void saveShelter(String name)
+    public void saveShelter(Shelter shelter)
     {
-        Shelter shelter = new Shelter(name);
         shelterRepository.save(shelter);
     }
 }

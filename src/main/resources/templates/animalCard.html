@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="card">
+    <a href="/animals">На главную</a>
+    <div class="container">
+        <h4><p th:utext="${animal.getName()}"></p></h4>
+        <p>Возраст: [[${animal.getAge()}]]</p>
+        <p>Порода: [[${animal.getBreed()}]]</p>
+        <p>Приют: <a th:href="@{/shelter/{id}(id=${shelter.getId()})}">[[${shelter.getName()}]]</a></p>
+        <p>Описание: [[${animal.getDescription()}]]</p>
+    </div>
+</div>
+</body>
+</html>

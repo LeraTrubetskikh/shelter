@@ -14,8 +14,8 @@ public class Shelter {
     @Column(name = "name")
     protected String name;
 
-//    @Column(name = "animalsId")
-//    protected List<Long> animals;
+    @Column(name = "address")
+    private String address;
 
     public Shelter(){}
 
@@ -32,11 +32,17 @@ public class Shelter {
         return name;
     }
 
+    public String getAddress(){return address;}
+
     public void setId(Long id){
         this.id = id;
     }
 
-    public void getName(String name){
+    public void setName(String name){
         this.name = name;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

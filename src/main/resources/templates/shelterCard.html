@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="card">
+    <a href="/animals">На главную</a>
+    <div class="container">
+        <h4> <p th:utext="${shelter.getName()}"></p></h4>
+        <p>Адрес: [[${shelter.getAddress()}]]</p>
+    </div>
+</div>
+</body>
+</html>

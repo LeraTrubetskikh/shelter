@@ -1,11 +1,13 @@
 package naumen.java.shelter.controllers;
 
+import naumen.java.shelter.model.Animal;
 import naumen.java.shelter.model.Shelter;
 import naumen.java.shelter.services.AnimalService;
 import naumen.java.shelter.services.ShelterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,39 +23,51 @@ public class ShelterController {
     public ShelterController(List<ShelterService> shelterServices){this.shelterServices = shelterServices;}
 
     @GetMapping(value = "/shelter/{id}")
-    @ResponseBody
-    public Shelter getSheltersById(@PathVariable("id") Long shelterId)
+    public String getShelterById(@PathVariable("id") Long shelterId, Model model)
     {
-        Shelter shelter = shelterServices.stream()
-                .map(shelterService-> shelterService.getShelterId(shelterId))
+        var shelter = shelterServices.stream()
+                .map(animalService-> animalService.getShelterById(shelterId))
                 .filter(Objects::nonNull)
                 .findFirst().orElseGet(null);
-        return shelter;
+        model.addAttribute("shelter", shelter);
+        return "shelterCard";
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value =
             "/shelters")
     @ResponseBody
     public ModelAndView getSheltersView(){
-        var shelter = shelterServices.stream()
+        var shelters = shelterServices.stream()
                 .filter(shelterService -> shelterService instanceof ShelterService)
                 .findFirst()
                 .get()
                 .getShelters();
 
         ModelAndView modelAndView = new ModelAndView("shelters");
-        modelAndView.addObject("shelters", shelter);
+        modelAndView.addObject("shelters", shelters);
         return modelAndView;
     }
 
-    @GetMapping("/createShelter/{name}")
-    public ModelAndView createShelter(@PathVariable String name)
-    {
+    @RequestMapping(value="/addShelter", method=RequestMethod.GET)
+    public String addShelterForm(Model model){
+        model.addAttribute("shelter", new Shelter());
+        return "addShelter";
+    }
+
+    @RequestMapping(value="/addShelter", method=RequestMethod.POST)
+    public ModelAndView addShelterSubmit(@ModelAttribute Shelter shelter, Model model){
         shelterServices.stream()
                 .filter(shelterService -> shelterService instanceof ShelterService)
                 .findFirst()
-                .get().saveShelter(name);
-
-        return getSheltersView();
+                .get()
+                .saveShelter(shelter);
+        var shelters = shelterServices.stream()
+                .filter(shelterService -> shelterService instanceof ShelterService)
+                .findFirst()
+                .get()
+                .getShelters();
+        ModelAndView modelAndView = new ModelAndView("shelters");
+        modelAndView.addObject("shelters", shelters);
+        return modelAndView;
     }
 }

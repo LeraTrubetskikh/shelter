@@ -1,21 +1,28 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-    <h1>animals</h1>
+    <h1>Животные</h1>
     <br/><br/>
     <div>
+        <a sec:authorize="!isAuthenticated()" href="/registration">Регистрация</a>
+        <a sec:authorize="!isAuthenticated()" href="/login">Войти</a>
+        <a sec:authorize="isAuthenticated()" href="/logout">Выход</a>
+        <a sec:authorize="isAuthenticated()" href="/shelters">Список приютов</a>
+        <a sec:authorize="hasAuthority('ADMIN')" href="/addAnimal">Добавить животное</a>
+        <a sec:authorize="hasAuthority('ADMIN')" href="/addShelter">Добавить приют</a>
         <table border="1">
             <tr>
-                <th>animal id</th>
-                <th>animal name</th>
+                <th>Имя</th>
+                <th></th>
             </tr>
             <tr th:each ="animal : ${animals}">
-                <td th:utext="${animal.getId()}">...</td>
                 <td th:utext="${animal.getName()}">...</td>
+                <td><a th:href="@{/animal/{id}(id=${animal.getId()})}">Развернуть</a></td>
             </tr>
         </table>
     </div>
